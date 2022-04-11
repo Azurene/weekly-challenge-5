@@ -1,44 +1,23 @@
-var currentDayEl = $("#currentDay");
-var dateToday = moment()
-var timeblockEl = $("#timeblocks");
-var nineEl = $("#9AM");
-var tenEl = $("#10AM");
-var elevenEl = $("#11AM");
-var twelveEl = $("#12PM");
-var oneEl = $("1PM");
-var twoEL = $("2PM");
-var threeEl = $("3PM");
-var fourEl = $("4PM");
-var fiveEl = $("5PM");
 var tasks = {};
-currentDayEl.text(dateToday);
+var currentDate = moment();
+var currentDayEl = $("#currentDay");
+var nineEl = $("#9AM")
 
-// create time blocks for standard business hours
-// create color-coded time blocks for past-present-future
-// form handling for each time block
-// functions to save items into localStorage
+// display current day and time
+currentDayEl.text(currentDate);
 
-var addTask = function() {
-    document.getElementById("submit-9").addEventListener("click", function(event) {
-        event.preventDefault();
-        nineEl.text = tasks.nineForm
+$("#submit-9").on("click", function(event) {
+    event.preventDefault();
 
-    });
-}
+    tasks.nineForm = nineEl.value;
 
-var scheduleForm = function() {
+    localStorage.setItem("tasks");
+});
 
-    // create elements for time
-    // elements for time styling
-    // go through function that creates one timeblock for each hour of business
-};
-
-var saveTask = function() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-};
-
-var loadTask = function() {
+var loadList = function () {
     tasks = JSON.parse(localStorage.getItem("tasks"));
+
+    // if nothing is in localStorage, create a new object to track all task status arrays
     if (!tasks) {
         tasks = {
             nineForm: [],
@@ -49,14 +28,27 @@ var loadTask = function() {
             twoForm: [],
             threeForm: [],
             fourForm: [],
-            fiveForm: [],
-        }
+            fiveForm: []
+        };
     }
+
+    // loop over object properties
+    $.each(tasks, function(list, arr) {
+        // then loop over sub-array
+        arr.forEach(function(task) {
+            createList(task.text, task.time, list);
+        });
+    });
+};
+
+var saveList = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-console.log(tasks)
-addTask();
-scheduleForm();
-saveTask();
-loadTask();
-console.log(tasks.nineForm);
+var auditTextarea = function(textareaEl) {
+    var currentTime = $(textareaEl).find("textarea").text().trim();
+
+    var taskTime = moment(date, "L").set("hour", 17);
+}
+
+loadList();
